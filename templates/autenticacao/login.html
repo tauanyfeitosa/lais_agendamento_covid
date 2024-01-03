@@ -1,1 +1,26 @@
-LOGIN
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block header %}
+    <h1>Login</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post" action="{% url 'autenticacao:login' %}">
+        {% csrf_token %}
+        <div>
+            <label for="id_cpf">CPF:</label>
+            {{ form.cpf }}
+        </div>
+        <div>
+            <label for="id_senha">Senha:</label>
+            {{ form.senha }}
+        </div>
+        <button type="submit">Entrar</button>
+    </form>
+{% endblock %}
+
+{% block footer %}
+    <p>Ainda não tem uma conta? <a href="{% url 'autenticacao:registrar' %}">Registrar-se</a></p>
+{% endblock %}

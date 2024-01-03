@@ -1,1 +1,29 @@
-LANDING PAGE
+{% extends 'base.html' %}
+
+{% block title %}Minha conta{% endblock %}
+
+{% block header %}
+    <h1>Minha conta</h1>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <h2>Informações pessoais</h2>
+        <p>Nome completo: <b>{{ user.nome }}</b></p>
+        <p>Data de nascimento: <b>{{ user.data_nascimento|date:"d/m/Y" }}</b> ({{ user.idade }} anos)</p>
+        <p>CPF: <b>{{ base_user.cpf }}</b></p>
+    </section>
+    <section>
+        <h2>Status</h2>
+        <p>Apto para agendamento: <b style="color: {{ user.eh_apto_agendamento|yesno:"green,red" }}">{{ user.eh_apto_agendamento|yesno:"Sim,Não" }}</b></p>
+    </section>
+    <section>
+        <h2>Ações</h2>
+        <form action="{% url 'autenticacao:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="logout">Logout</button>
+        </form>
+        <button type="button" class="agendamento" {% if not user.eh_apto_agendamento %}disabled{% endif %}>Realizar agendamento</button>
+        <button type="button" class="agendamentos">Listar agendamentos</button>
+    </section>
+{% endblock %}
