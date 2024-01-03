@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  db_postgres:
+    image: library/postgres:16.0
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
