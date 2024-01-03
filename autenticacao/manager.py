@@ -6,8 +6,8 @@ class CandidatoManager(BaseUserManager):
     def create_user(self, cpf, password=None):
         if not cpf:
             raise ValueError("O CPF deve ser informado.")
-        cpf = self.cpf
         user = self.model(cpf=cpf)
+        user.clean()
         user.set_password(password)
         user.save(using=self._db)
         return user
