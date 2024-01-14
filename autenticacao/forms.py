@@ -93,15 +93,15 @@ class RegistrarForm(forms.ModelForm):
                 covid_30_dias=covid_30_dias
             )
 
-            candidato.apto_agendamento = candidato.eh_apto_agendamento()
-            candidato.save()
-
             if self.cleaned_data.get('grupo_atendimento'):
                 for grupo in self.cleaned_data['grupo_atendimento']:
                     GrupoAtendimentoCandidato.objects.create(
                         candidato=candidato,
                         grupo_atendimento=grupo
                     )
+
+            candidato.apto_agendamento = candidato.eh_apto_agendamento()
+            candidato.save()
 
             return candidato
 
