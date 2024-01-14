@@ -65,7 +65,7 @@ def realizar_agendamento(request):
             except AgendamentoLotadoException as e:
                 form.add_error(e.field, e.args[0])
 
-        return render(request, 'agendamento/realizar_agendamento.html', {'form': form})
+        return render(request, 'agendamento/realizar_agendamento.html', {'form': form, 'horario_disponivel': horario_disponivel})
     else:
         form = AgendamentoForm()
         return render(request, 'agendamento/realizar_agendamento.html', {'form': form, 'horario_disponivel': horario_disponivel})
