@@ -1,29 +1,49 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block title %}Minha conta{% endblock %}
 
 {% block header %}
-    <h1>Minha conta</h1>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Minha conta</h1>
+        <form action="{% url 'autenticacao:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-secondary">Logout</button>
+        </form>
+    </div>
 {% endblock %}
 
 {% block content %}
     <section>
         <h2>Informações pessoais</h2>
-        <p>Nome completo: <b>{{ user.nome }}</b></p>
-        <p>Data de nascimento: <b>{{ user.data_nascimento|date:"d/m/Y" }}</b> ({{ user.idade }} anos)</p>
-        <p>CPF: <b>{{ base_user.cpf }}</b></p>
+        <p>Nome completo: <b>{{ candidato.nome }}</b></p>
+        <p>Data de nascimento: <b>{{ candidato.data_nascimento|date:"d/m/Y" }}</b> ({{ candidato.idade }} anos)</p>
+        <p>CPF: <b>{{ usuario_base.cpf }}</b></p>
     </section>
     <section>
         <h2>Status</h2>
-        <p>Apto para agendamento: <b style="color: {{ user.eh_apto_agendamento|yesno:"green,red" }}">{{ user.eh_apto_agendamento|yesno:"Sim,Não" }}</b></p>
+        <p>Apto para agendamento: <b style="color: {{ candidato.apto_agendamento|yesno:"green,red" }}">{{ candidato.eh_apto_agendamento|yesno:"Sim,Não" }}</b></p>
     </section>
     <section>
-        <h2>Ações</h2>
-        <form action="{% url 'autenticacao:logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="logout">Logout</button>
-        </form>
-        <button type="button" class="agendamento" {% if not user.eh_apto_agendamento %}disabled{% endif %}>Realizar agendamento</button>
-        <button type="button" class="agendamentos">Listar agendamentos</button>
+        {% if candidato.apto_agendamento %}
+            {% if not candidato.get_agendamento %}
+                <a href="{% url 'agendamento:realizar_agendamento' %}" class="btn btn-primary">Realizar agendamento</a>
+            {% endif %}
     </section>
+    <section>
+        <h2>Agendamentos</h2>
+        {% if agendamentos %}
+            <ul>
+                {% for agendamento in agendamentos %}
+                    <li>
+                        {{ agendamento.estabelecimento_saude }} - {{ agendamento.data_hora_agendamento|date:"d/m/Y H:i" }}
+                        ({{ agendamento.ativo|yesno:"Ativo,Expirado" }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Você ainda não fez nenhum agendamento.</p>
+        {% endif %}
+    </section>
+    {% endif %}
 {% endblock %}

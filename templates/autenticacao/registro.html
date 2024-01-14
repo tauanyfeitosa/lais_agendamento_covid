@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block title %}Registrar{% endblock %}
 
@@ -7,40 +8,23 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'autenticacao:registrar' %}">
+    <form method="post" action="{% url 'autenticacao:registrar' %}" class="form">
         {% csrf_token %}
-        <div>
-            <label for="id_nome">Nome Completo:</label>
-            {{ form.nome }}
-        </div>
-        <div>
-            <label for="id_cpf">CPF:</label>
-            {{ form.cpf }}
-        </div>
-        <div>
-            <label for="id_senha">Senha:</label>
-            {{ form.senha }}
-        </div>
-        <div>
-            <label for="id_senha_confirmacao">Confirmação de Senha:</label>
-            {{ form.senha_confirmacao }}
-        </div>
-        <div>
-            <label for="id_data_nascimento">Data de Nascimento:</label>
-            {{ form.data_nascimento }}
-        </div>
-        <div>
-            <label for="id_grupo_atendimento">Grupos de Atendimento:</label>
-            {{ form.grupo_atendimento }}
-        </div>
-        <div>
-            <label for="id_covid_30_dias">Teve Covid nos últimos 30 dias?</label>
-            {{ form.covid_30_dias }}
-        </div>
-        <button type="submit">Registrar</button>
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Registrar</button>
     </form>
 {% endblock %}
 
 {% block footer %}
-    <p>Já tem uma conta? <a href="{% url 'autenticacao:login' %}">Entrar</a></p>
+    <p>Já tem uma conta? <a href="{% url 'autenticacao:login' %}" class="text-decoration-none">Entrar</a></p>
+{% endblock %}
+
+{% block additional_scripts %}
+{% bootstrap_javascript jquery='full' %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#id_cpf').inputmask('999.999.999-99', { placeholder: '___.___.___-__' });
+        });
+    </script>
 {% endblock %}

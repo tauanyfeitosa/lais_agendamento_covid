@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load bootstrap4 %}
 
 {% block title %}Login{% endblock %}
 
@@ -7,20 +8,24 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'autenticacao:login' %}">
+    <form method="post" action="{% url 'autenticacao:login' %}" class="form">
         {% csrf_token %}
-        <div>
-            <label for="id_cpf">CPF:</label>
-            {{ form.cpf }}
-        </div>
-        <div>
-            <label for="id_senha">Senha:</label>
-            {{ form.senha }}
-        </div>
-        <button type="submit">Entrar</button>
+        {% bootstrap_form form %}
+        <button type="submit" class="btn btn-primary">Entrar</button>
     </form>
 {% endblock %}
 
-{% block footer %}
-    <p>Ainda não tem uma conta? <a href="{% url 'autenticacao:registrar' %}">Registrar-se</a></p>
+{% block additional_scripts %}
+{% bootstrap_javascript jquery='full' %}
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>-->
+<!--    <script>-->
+<!--        $(document).ready(function(){-->
+<!--            $('#id_cpf').inputmask('999.999.999-99', { placeholder: '___.___.___-__' });-->
+<!--        });-->
+<!--    </script>-->
 {% endblock %}
+
+{% block footer %}
+    <p>Ainda não tem uma conta? <a href="{% url 'autenticacao:registrar' %}" class="text-decoration-none">Registrar-se</a></p>
+{% endblock %}
+

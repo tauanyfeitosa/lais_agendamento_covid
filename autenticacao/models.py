@@ -5,11 +5,12 @@ from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 from localflavor.br.models import BRCPFField
 
+from agendamento.models import Agendamento
 from autenticacao.manager import CandidatoManager
 from base.models import BaseModel
 
 
-class BaseUser(AbstractBaseUser, PermissionsMixin):
+class UsuarioBase(AbstractBaseUser, PermissionsMixin):
     cpf = BRCPFField(
         max_length=11,
         unique=True,
@@ -40,8 +41,8 @@ class BaseUser(AbstractBaseUser, PermissionsMixin):
 
 
 class Candidato(BaseModel):
-    candidato = models.OneToOneField(
-        'BaseUser',
+    usuario_base = models.OneToOneField(
+        'UsuarioBase',
         on_delete=models.PROTECT,
         verbose_name=u'Usuário'
     )
@@ -56,6 +57,10 @@ class Candidato(BaseModel):
         default=False,
         verbose_name='Teve COVID nos últimos 30 dias?'
     )
+    apto_agendamento = models.BooleanField(
+        default=False,
+        verbose_name='É apto para agendamento?'
+    )
 
     @property
     def idade(self):
@@ -67,12 +72,8 @@ class Candidato(BaseModel):
 
         return idade
 
-    @property
     def eh_apto_agendamento(self):
-        if self.covid_30_dias:
-            return False
-
-        if self.idade < 18:
+        if self.covid_30_dias or self.idade < 18:
             return False
 
         nomes_grupos_nao_permitidos = [
@@ -85,10 +86,10 @@ class Candidato(BaseModel):
             grupo_atendimento__nome__in=nomes_grupos_nao_permitidos
         )
 
-        if grupos_nao_permitidos.exists():
-            return False
+        return not grupos_nao_permitidos.exists()
 
-        return True
+    def get_agendamento(self):
+        return Agendamento.objects.filter(candidato=self, ativo=True).first()
 
     def __str__(self):
         return self.nome

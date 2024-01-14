@@ -11,12 +11,13 @@ def registrar(request):
     if request.method == 'POST':
         form = RegistrarForm(request.POST)
         if form.is_valid():
-            _, apto_para_agendamento = form.save()
+            candidato = form.save()
+            messages.success(request, "Cadastro realizado com sucesso!")
 
-            if apto_para_agendamento:
-                messages.success(request, "Cadastro realizado com sucesso! Você está apto para agendamento.")
+            if candidato.apto_agendamento:
+                messages.info(request, "Você está apto para agendamento.")
             else:
-                messages.info(request, "Cadastro realizado com sucesso, porém, você não está apto para agendamento.")
+                messages.info(request, "Você não está apto para agendamento.")
 
             return redirect('autenticacao:login')
         else:
@@ -50,4 +51,5 @@ def login(request):
 @login_required
 def logout(request):
     django_logout(request)
+    messages.success(request, "Logout realizado com sucesso!")
     return redirect('autenticacao:login')

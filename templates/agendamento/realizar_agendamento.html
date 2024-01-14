@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Realizar Agendamento{% endblock %}
+
+{% block content %}
+    <h2>Realizar Agendamento</h2>
+    <div>
+        <p>Lembrete: os agendamentos estão disponíveis apenas entre as Quartas-Feiras e Sábados</p>
+        {% if horario_disponivel %}
+            <p>Baseado na sua faixa etária, o horário disponível para agendamento é às <b>{{ horario_disponivel }}</b>.</p>
+        {% endif %}
+    </div>
+
+    <form method="post" class="form">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        <div class="d-flex justify-content-start">
+            {% buttons %}
+                <button type="submit" class="btn btn-primary mr-5">Agendar</button>
+            {% endbuttons %}
+            <!-- Botão Voltar -->
+            <a href="{% url 'base:home' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+    </form>
+
+{% endblock %}
+
+{% block additional_scripts %}
+{% endblock %}

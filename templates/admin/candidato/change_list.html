@@ -1,0 +1,9 @@
+{% extends "admin/change_list.html" %}
+{% load i18n static %}
+
+{% block object-tools-items %}
+    <li>
+        <a href="{% url 'base:grafico_aptos_inaptos' %}" class="button">Gráfico de Aptos e Inaptos</a>
+    </li>
+    {{ block.super }}
+{% endblock %}

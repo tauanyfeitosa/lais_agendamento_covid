@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('candidato/', include('base.urls', namespace='base')),
     path('auth/', include('autenticacao.urls', namespace='autenticacao')),
+    path('agendamento/', include('agendamento.urls', namespace='agendamento')),
     path('', lambda request: redirect('autenticacao:login'), name='landing_page')
 ]

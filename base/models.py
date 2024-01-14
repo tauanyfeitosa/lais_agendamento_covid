@@ -15,12 +15,7 @@ class BaseModel(models.Model):
 
 class GrupoAtendimento(models.Model):
     nome = models.CharField(max_length=255)
-    visivel = models.BooleanField(default=True)
-    fase = models.CharField(max_length=3)
     codigo_si_pni = models.CharField(max_length=10)
-    grupo_pai = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    criado_em = models.DateTimeField(auto_now_add=True, editable=False)
-    atualizado_em = models.DateTimeField(auto_now=True, editable=False)
 
     class Meta:
         verbose_name = 'Grupo de Atendimento'
