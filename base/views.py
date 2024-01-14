@@ -10,7 +10,7 @@ from autenticacao.models import Candidato
 def home(request):
     usuario_base = request.user
     candidato = usuario_base.candidato
-    if candidato.agendamentos.all().exists():
+    if candidato.agendamentos.filter(ativo=True).exists():
         agendamento_ativo = candidato.agendamentos.filter(ativo=True).first().atualizar_status_agendamento()
     agendamentos = candidato.agendamentos.all()
 
