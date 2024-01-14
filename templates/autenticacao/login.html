@@ -44,20 +44,20 @@
         <div class="d-flex justify-content-center h-100">
             <div class="card">
                 <div class="card-header">
-                    <h3>Sign In</h3>
+                    <h3>Entrar</h3>
                 </div>
                 <div class="card-body">
                     <form method="post" action="{% url 'autenticacao:login' %}" class="form">
                         {% csrf_token %}
                         {% bootstrap_form form %}
                         <div class="form-group">
-                            <button type="submit" class="btn float-right login_btn">Login</button>
+                            <button type="submit" class="btn float-right login_btn">Entrar</button>
                         </div>
                     </form>
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        Ainda não tem uma conta? <a href="{% url 'autenticacao:registrar' %}">Sign Up</a>
+                        Ainda não tem uma conta? <a href="{% url 'autenticacao:registrar' %}"><span style="margin-left: 5px;">Cadastrar-se</span></a>
                     </div>
                 </div>
             </div>

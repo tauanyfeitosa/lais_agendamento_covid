@@ -56,11 +56,16 @@
                         {% if field.name == 'grupo_atendimento' %}
                             <div class="form-group">
                                 <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                                <select name="{{ field.name }}" class="form-control" size="3" multiple style="height: 200px;">
+                                <div id="{{ field.id_for_label }}" class="scrollable-checkbox-list" style="height: 200px; overflow-y: auto;">
                                     {% for choice_value, choice_label in field.field.choices %}
-                                        <option value="{{ choice_value }}" {% if choice_value in field.value %}selected{% endif %}>{{ choice_label }}</option>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" name="{{ field.name }}" value="{{ choice_value }}" id="checkbox_{{ choice_value }}" {% if choice_value in field.value %}checked{% endif %}>
+                                            <label class="form-check-label" for="checkbox_{{ choice_value }}">
+                                                {{ choice_label }}
+                                            </label>
+                                        </div>
                                     {% endfor %}
-                                </select>
+                                </div>
                                 {% for error in field.errors %}
                                     <div class="invalid-feedback">{{ error }}</div>
                                 {% endfor %}
@@ -75,7 +80,7 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-center links">
-                        Já tem uma conta? <a href="{% url 'autenticacao:login' %}">Entrar</a>
+                        Já tem uma conta? <a href="{% url 'autenticacao:login' %}"><span style="margin-left: 5px;">Entrar</a>
                     </div>
                 </div>
             </div>
