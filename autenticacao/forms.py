@@ -16,9 +16,6 @@ class RegistrarForm(forms.ModelForm):
     )
     cpf = BRCPFField(
         label='CPF',
-        widget=forms.TextInput(attrs={
-            'data-mask': '000.000.000-00',
-        })
     )
     senha = forms.CharField(
             widget=forms.PasswordInput(),
@@ -110,8 +107,13 @@ class RegistrarForm(forms.ModelForm):
 
 
 class LoginForm(forms.Form):
-    cpf = BRCPFField(max_length=11, label='CPF')
+    cpf = BRCPFField(label='CPF')
     senha = forms.CharField(widget=forms.PasswordInput(), min_length=8, max_length=12, label='Senha')
+
+    def clean_cpf(self):
+        cpf = self.cleaned_data['cpf']
+        cpf = cpf.replace('.', '').replace('-', '')
+        return cpf
 
     def clean(self):
         cleaned_data = super().clean()
