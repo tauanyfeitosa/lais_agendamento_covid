@@ -4,23 +4,87 @@
 {% block title %}Registrar{% endblock %}
 
 {% block header %}
-    <h1>Registrar nova conta</h1>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/universal/2-0-1/vendor/font-awesome/css/font-awesome.min.css">
+    <div class="top-bar bg-info text-light">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-6 d-md-block d-none">
+                    <br><br><img src="https://lais.huol.ufrn.br/wp-content/themes/LAIS-2022/img/logo.svg" class="img-fluid float-left"
+                         alt="Laboratório de Inovação Tecnológica em Saúde" width="200px"><br><br>
+                    <p></p>
+                    <p></p>
+                </div>
+                <div class="container mt-1">
+                    <div class="lead mr-md-3">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <br><br>
+                            <p>
+                                <a href="{% url 'autenticacao:login' %}" class="btn btn-info btn-sm me-2 text-white">Entrar</a>
+                                <a href="{% url 'autenticacao:registrar' %}" class="btn btn-info btn-sm me-2 text-white">Cadastre-se</a>
+                                <a href="mailto:comunicacao@lais.huol.ufrn.br" class="btn btn-info btn-sm me-2 text-white">Fale Conosco</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block content %}
-    <form method="post" action="{% url 'autenticacao:registrar' %}" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        <button type="submit" class="btn btn-primary">Registrar</button>
-    </form>
-{% endblock %}
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card" style="width: 75%;">
+                <div class="card-header">
+                    <h3>Registrar nova conta</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" action="{% url 'autenticacao:registrar' %}" class="form">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if field.name != 'grupo_atendimento' %}
+                                <div class="form-group">
+                                    {% bootstrap_field field %}
+                                    {% for error in field.errors %}
+                                        <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        {% if field.name == 'grupo_atendimento' %}
+                            <div class="form-group">
+                                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                <select name="{{ field.name }}" class="form-control" size="3" multiple style="height: 200px;">
+                                    {% for choice_value, choice_label in field.field.choices %}
+                                        <option value="{{ choice_value }}" {% if choice_value in field.value %}selected{% endif %}>{{ choice_label }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% for error in field.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
 
-{% block footer %}
-    <p>Já tem uma conta? <a href="{% url 'autenticacao:login' %}" class="text-decoration-none">Entrar</a></p>
+                        {% endfor %}
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary float-right">Registrar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        Já tem uma conta? <a href="{% url 'autenticacao:login' %}">Entrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block additional_scripts %}
-{% bootstrap_javascript jquery='full' %}
+    {% bootstrap_javascript jquery='full' %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.8/jquery.inputmask.min.js"></script>
     <script>
         $(document).ready(function(){
