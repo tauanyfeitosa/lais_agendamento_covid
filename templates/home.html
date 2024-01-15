@@ -19,58 +19,52 @@
 {% bootstrap_messages %}
 {% block content %}
     <div class="container">
-        <div class="row">
-            <div class=" col-lg-offset-2 col-lg-8">
-                <div class="panel panel-default panel-body">
-                    <div class="content-centered">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="row">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="row">
-                                    <div class="centered-text col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
-                                        <div itemscope="" itemtype="http://schema.org/Person">
-                                            <h2>{{ candidato.nome }}</h2>
-                                            <p>Data de nascimento: <b>{{ candidato.data_nascimento|date:"d/m/Y" }}</b> ({{ candidato.idade }} anos)</p>
-                                            <p>CPF: <b>{{ usuario_base.cpf }}</b></p>
-                                            <p>Apto para agendamento: <b style="color: {{ candidato.apto_agendamento|yesno:"green,red" }}">{{ candidato.apto_agendamento|yesno:"Sim,Não" }}</b> </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card mt-5">
+                    <div class="card-header bg-info text-white">
+                        <h2 class="text-center">Detalhes do Candidato</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-4">
+                            <h3>{{ candidato.nome }}</h3>
+                            <p>Data de Nascimento: <b>{{ candidato.data_nascimento|date:"d/m/Y" }}</b> ({{ candidato.idade }} anos)</p>
+                            <p>CPF: <b>{{ usuario_base.cpf }}</b></p>
+                            <p>Apto para agendamento: <b style="color: {{ candidato.apto_agendamento|yesno:'green,red' }}">{{ candidato.apto_agendamento|yesno:"Sim,Não" }}</b></p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <section>
-            {% if candidato.apto_agendamento %}
-                {% if not candidato.get_agendamento %}
-                    <a href="{% url 'agendamento:realizar_agendamento' %}" class="btn btn-primary">Realizar agendamento</a>
-                {% endif %}
-        </section>
-        <section>
-            <h2>Agendamentos</h2>
-            {% if agendamentos %}
-                <ul>
-                    {% for agendamento in agendamentos %}
-                        <li>
-                            {{ agendamento.estabelecimento_saude }} - {{ agendamento.data_hora_agendamento|date:"d/m/Y H:i" }}
-                            ({{ agendamento.ativo|yesno:"Ativo,Expirado" }})
-                        </li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>Você ainda não fez nenhum agendamento.</p>
+
+        {% if candidato.apto_agendamento %}
+            {% if not candidato.get_agendamento %}
+                <div class="mt-4">
+                    <a href="{% url 'agendamento:realizar_agendamento' %}" class="btn btn-info">Realizar Agendamento</a>
+                </div>
             {% endif %}
-        </section>
+
+            <div class="card mt-5">
+                <div class="card-header bg-info text-white">
+                    <h2 class="text-center">Agendamentos</h2>
+                </div>
+                <div class="card-body">
+                    {% if agendamentos %}
+                        <ul class="list-group">
+                            {% for agendamento in agendamentos %}
+                                <li class="list-group-item">
+                                    <strong>{{ agendamento.estabelecimento_saude }}</strong> - {{ agendamento.data_hora_agendamento|date:"d/m/Y H:i" }}
+                                    (<b style="color: {{ agendamento.ativo|yesno:'green,red'}}">{{ agendamento.ativo|yesno:'Ativo,Expirado'}}</b>)
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Você ainda não fez nenhum agendamento.</p>
+                    {% endif %}
+                </div>
+            </div>
         {% endif %}
     </div>
-
 {% endblock %}
 
 {% block additional_scripts %}

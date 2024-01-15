@@ -8,6 +8,9 @@ from autenticacao.forms import RegistrarForm, LoginForm
 
 
 def registrar(request):
+    if request.user.is_authenticated:
+        messages.info(request, "Você já está autenticado no sistema. Faça logout para registrar novamente!")
+        return redirect("base:home")
     if request.method == 'POST':
         form = RegistrarForm(request.POST)
         if form.is_valid():
@@ -30,6 +33,9 @@ def registrar(request):
 
 
 def login(request):
+    if request.user.is_authenticated:
+        messages.info(request, "Você já está autenticado no sistema. Faça logout para efetuar o login novamente!")
+        return redirect("base:home")
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
