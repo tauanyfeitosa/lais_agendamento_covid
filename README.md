@@ -8,15 +8,46 @@ Este projeto foi desenvolvido como pré-requisito parcial no edital Nº028/2023 
 
 ### Passos para execução
 
-1. Ao clonar este repositório, crie um ambiente virtual
-2. Após ativar o ambiente virtual, instale as dependências
-3. Configure o banco do projeto: utilize o local_settings_sample e .env_sample para auxiliar na configuração como modelo
-4. Rode os comandos para carregar os dados necessários, eles estão em base/management
-5. Insira o comando: python manage.py migrate
+1. Clone este repositório e crie um ambiente virtual:
 
-Seu programa já está pronto para execução!!!
+    ```bash
+    python -m venv venv
+    ```
 
+2. Ative o ambiente virtual:
 
-## Resumo de funcionamento
+    - No Windows:
 
-Para acompanhar e testar o funcionamento, verifique o seguinte edital: Edital Nº028/2023 do LAIS/UFRN - https://lais.huol.ufrn.br/wp-content/uploads/2023/12/Edital_028.2023-Selecao-de-alunos-de-tecnologia1.pdf)
+        ```bash
+        \venv\Scripts\activate
+        ```
+
+3. Instale as dependências:
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Configure o banco de dados do projeto:
+
+   - Utilize os arquivos `local_settings_sample` e `.env_sample` como modelos. Copie as informações de ambos os arquivos e crie os arquivos `local_settings` e `.env`, colando as respectivas informações.
+
+5. Rode os comandos para carregar os dados necessários:
+
+    ```bash
+    python manage.py importar_estabelecimentos_saude
+    python manage.py importar_grupos_atendimento
+    ```
+
+6. Execute as migrações:
+
+    ```bash
+    python manage.py migrate
+    ```
+
+Seu programa está pronto para ser executado!
+
+## Resumo de Funcionamento
+
+Para acompanhar e testar o funcionamento, consulte o seguinte edital: [Edital Nº028/2023 do LAIS/UFRN](https://lais.huol.ufrn.br/wp-content/uploads/2023/12/Edital_028.2023-Selecao-de-alunos-de-tecnologia1.pdf)
+
