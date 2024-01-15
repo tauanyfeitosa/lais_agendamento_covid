@@ -45,9 +45,6 @@
                             {% if field.name != 'grupo_atendimento' %}
                                 <div class="form-group">
                                     {% bootstrap_field field %}
-                                    {% for error in field.errors %}
-                                        <div class="invalid-feedback">{{ error }}</div>
-                                    {% endfor %}
                                 </div>
                             {% endif %}
                         {% if field.name == 'grupo_atendimento' %}

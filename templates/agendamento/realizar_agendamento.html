@@ -3,26 +3,60 @@
 
 {% block title %}Realizar Agendamento{% endblock %}
 
+{% block header %}
+    <link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/universal/2-0-1/vendor/font-awesome/css/font-awesome.min.css">
+    <div class="top-bar bg-info text-light">
+            <div class="container">
+              <div class="row d-flex align-items-center">
+                <div class="col-md-6 d-md-block d-none">
+                    <br><br><img src="https://lais.huol.ufrn.br/wp-content/themes/LAIS-2022/img/logo.svg" class="img-fluid float-left"
+                         alt="Laboratório de Inovação Tecnológica em Saúde" width="200px"><br><br>
+                    <p></p>
+                    <p></p>
+                </div>
+                <div class="container mt-1">
+                  <div class="lead mr-md-3">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                     <br><br> <p><a href="{% url 'base:home' %}" class="btn btn-info btn-sm me-2 text-white">Home</a>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                     <br><br> <p><a href="{% url 'autenticacao:logout' %}" class="btn btn-info btn-sm me-2 text-white">Logout</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    <meta charset="UTF-8">
+    <title>Página Inicial</title>
+{% endblock %}
+
 {% block content %}
-    <h2>Realizar Agendamento</h2>
-    <div>
-        <p>Lembrete: os agendamentos estão disponíveis apenas entre as Quartas-Feiras e Sábados</p>
-        <p>Baseado na sua faixa etária, o horário disponível para agendamento é às <b>{{ horario_disponivel }}</b>.</p>
-    </div>
-
-    <form method="post" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-
-        <div class="d-flex justify-content-start">
-            {% buttons %}
-                <button type="submit" class="btn btn-primary mr-5">Agendar</button>
-            {% endbuttons %}
-            <!-- Botão Voltar -->
-            <a href="{% url 'base:home' %}" class="btn btn-secondary">Voltar</a>
+    <div class="container">
+        <div class="d-flex justify-content-center h-100">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Realizar Agendamento</h3>
+                </div>
+                <div class="card-body">
+                    <p>Lembrete: os agendamentos estão disponíveis apenas entre as Quartas-Feiras e Sábados</p>
+                    <p>Baseado na sua faixa etária, o horário disponível para agendamento é às <b>{{ horario_disponivel }}</b>.</p>
+                    <form method="post" class="form">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="form-group">
+                            <button type="submit" class="btn float-right login_btn">Agendar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center links">
+                        <a href="{% url 'base:home' %}">Voltar</a>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
-
+    </div>
 {% endblock %}
 
 {% block additional_scripts %}

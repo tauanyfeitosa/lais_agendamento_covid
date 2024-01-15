@@ -1,51 +1,76 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 
-{% block title %}Minha conta{% endblock %}
-
 {% block header %}
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>Minha conta</h1>
-        <form action="{% url 'autenticacao:logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-secondary">Logout</button>
-        </form>
+<link rel="stylesheet" href="https://d19m59y37dris4.cloudfront.net/universal/2-0-1/vendor/font-awesome/css/font-awesome.min.css">
+<div class="top-bar bg-info text-light">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 d-md-block d-none">
+                <img src="https://lais.huol.ufrn.br/wp-content/themes/LAIS-2022/img/logo.svg" class="img-fluid" alt="Laboratório de Inovação Tecnológica em Saúde" width="200px">
+            </div>
+            <div class="col-md-6 d-md-block d-none text-right" style="margin-top: 20px;">
+                <a href="{% url 'autenticacao:logout' %}" class="btn btn-info btn-sm text-white">Logout</a>
+            </div>
+        </div>
     </div>
+</div>
 {% endblock %}
-
+{% bootstrap_messages %}
 {% block content %}
-    <section>
-        <h2>Informações pessoais</h2>
-        <p>Nome completo: <b>{{ candidato.nome }}</b></p>
-        <p>Data de nascimento: <b>{{ candidato.data_nascimento|date:"d/m/Y" }}</b> ({{ candidato.idade }} anos)</p>
-        <p>CPF: <b>{{ usuario_base.cpf }}</b></p>
-    </section>
-    <section>
-        <h2>Status</h2>
-        <p>Apto para agendamento: <b style="color: {{ candidato.apto_agendamento|yesno:"green,red" }}">{{ candidato.eh_apto_agendamento|yesno:"Sim,Não" }}</b></p>
-    </section>
-    <section>
-        {% if candidato.apto_agendamento %}
-            {% if not candidato.get_agendamento %}
-                <a href="{% url 'agendamento:realizar_agendamento' %}" class="btn btn-primary">Realizar agendamento</a>
+    <div class="container">
+        <div class="row">
+            <div class=" col-lg-offset-2 col-lg-8">
+                <div class="panel panel-default panel-body">
+                    <div class="content-centered">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="centered-text col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+                                        <div itemscope="" itemtype="http://schema.org/Person">
+                                            <h2>{{ candidato.nome }}</h2>
+                                            <p>Data de nascimento: <b>{{ candidato.data_nascimento|date:"d/m/Y" }}</b> ({{ candidato.idade }} anos)</p>
+                                            <p>CPF: <b>{{ usuario_base.cpf }}</b></p>
+                                            <p>Apto para agendamento: <b style="color: {{ candidato.apto_agendamento|yesno:"green,red" }}">{{ candidato.apto_agendamento|yesno:"Sim,Não" }}</b> </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section>
+            {% if candidato.apto_agendamento %}
+                {% if not candidato.get_agendamento %}
+                    <a href="{% url 'agendamento:realizar_agendamento' %}" class="btn btn-primary">Realizar agendamento</a>
+                {% endif %}
+        </section>
+        <section>
+            <h2>Agendamentos</h2>
+            {% if agendamentos %}
+                <ul>
+                    {% for agendamento in agendamentos %}
+                        <li>
+                            {{ agendamento.estabelecimento_saude }} - {{ agendamento.data_hora_agendamento|date:"d/m/Y H:i" }}
+                            ({{ agendamento.ativo|yesno:"Ativo,Expirado" }})
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Você ainda não fez nenhum agendamento.</p>
             {% endif %}
-    </section>
-    <section>
-        <h2>Agendamentos</h2>
-        {% if agendamentos %}
-            <ul>
-                {% for agendamento in agendamentos %}
-                    <li>
-                        {{ agendamento.estabelecimento_saude }} - {{ agendamento.data_hora_agendamento|date:"d/m/Y H:i" }}
-                        ({{ agendamento.ativo|yesno:"Ativo,Expirado" }})
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Você ainda não fez nenhum agendamento.</p>
+        </section>
         {% endif %}
-    </section>
-    {% endif %}
+    </div>
+
 {% endblock %}
 
 {% block additional_scripts %}
